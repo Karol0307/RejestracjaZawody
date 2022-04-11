@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ZawodyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bieg">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="Dystans" Type="float" Nullable="false" />
+          <Property Name="Miejsce" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nazwisko" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Login" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="Haslo" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zawody">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="ID_bieg" Type="int" Nullable="false" />
+          <Property Name="Numer" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Zawody_Bieg">
+          <End Role="Bieg" Type="Self.Bieg" Multiplicity="1" />
+          <End Role="Zawody" Type="Self.Zawody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bieg">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zawody">
+              <PropertyRef Name="ID_bieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zawody_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zawody" Type="Self.Zawody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zawody">
+              <PropertyRef Name="ID_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZawodyModelStoreContainer">
+          <EntitySet Name="Bieg" EntityType="Self.Bieg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zawody" EntityType="Self.Zawody" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Zawody_Bieg" Association="Self.FK_Zawody_Bieg">
+            <End Role="Bieg" EntitySet="Bieg" />
+            <End Role="Zawody" EntitySet="Zawody" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zawody_Uzytkownik" Association="Self.FK_Zawody_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zawody" EntitySet="Zawody" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZawodyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bieg">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Dystans" Type="Double" Nullable="false" />
+          <Property Name="Miejsce" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Zawody" Relationship="Self.FK_Zawody_Bieg" FromRole="Bieg" ToRole="Zawody" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Haslo" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Zawody" Relationship="Self.FK_Zawody_Uzytkownik" FromRole="Uzytkownik" ToRole="Zawody" />
+        </EntityType>
+        <EntityType Name="Zawody">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="ID_bieg" Type="Int32" Nullable="false" />
+          <Property Name="Numer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bieg" Relationship="Self.FK_Zawody_Bieg" FromRole="Zawody" ToRole="Bieg" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Zawody_Uzytkownik" FromRole="Zawody" ToRole="Uzytkownik" />
+        </EntityType>
+        <Association Name="FK_Zawody_Bieg">
+          <End Role="Bieg" Type="Self.Bieg" Multiplicity="1" />
+          <End Role="Zawody" Type="Self.Zawody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bieg">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zawody">
+              <PropertyRef Name="ID_bieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zawody_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zawody" Type="Self.Zawody" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zawody">
+              <PropertyRef Name="ID_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZawodyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bieg" EntityType="Self.Bieg" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
+          <EntitySet Name="Zawody" EntityType="Self.Zawody" />
+          <AssociationSet Name="FK_Zawody_Bieg" Association="Self.FK_Zawody_Bieg">
+            <End Role="Bieg" EntitySet="Bieg" />
+            <End Role="Zawody" EntitySet="Zawody" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zawody_Uzytkownik" Association="Self.FK_Zawody_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zawody" EntitySet="Zawody" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ZawodyModelStoreContainer" CdmEntityContainer="ZawodyEntities">
+          <EntitySetMapping Name="Bieg">
+            <EntityTypeMapping TypeName="ZawodyModel.Bieg">
+              <MappingFragment StoreEntitySet="Bieg">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Dystans" ColumnName="Dystans" />
+                <ScalarProperty Name="Miejsce" ColumnName="Miejsce" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uzytkownik">
+            <EntityTypeMapping TypeName="ZawodyModel.Uzytkownik">
+              <MappingFragment StoreEntitySet="Uzytkownik">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zawody">
+            <EntityTypeMapping TypeName="ZawodyModel.Zawody">
+              <MappingFragment StoreEntitySet="Zawody">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_uzytkownik" ColumnName="ID_uzytkownik" />
+                <ScalarProperty Name="ID_bieg" ColumnName="ID_bieg" />
+                <ScalarProperty Name="Numer" ColumnName="Numer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
