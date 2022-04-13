@@ -127,11 +127,11 @@ namespace Competitions
             {
                 if (samePassword)
                 {
-                    var user = DatabaseLocator.Database.Uzytkownik.FirstOrDefault(k => k.Haslo.Equals(password));
+                    var user = DatabaseLocator.Database.Uzytkownik.FirstOrDefault(k => k.Login.Equals(username));
                     if (user != null)
                     {
                         TurnRegisterMessage = Visibility.Visible;
-                        RegisterMessage = "Hasło jest zajęte!";
+                        RegisterMessage = "Login jest zajęty!";
                     }
                     else if(Password.Length < 8)
                     {
